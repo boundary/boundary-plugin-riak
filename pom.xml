@@ -6,7 +6,7 @@
   <artifactId>boundary-plugin-riak</artifactId>
   <packaging>jar</packaging>
   <version>00.04.00</version>
-  <name>boundary_plugin_shell</name>
+  <name>boundary_plugin_riak</name>
   <description>Boundary Plugin Riak allows the collection of metrics from Riak cluster</description>
   <url>https://github.com/boundary/boundary-plugin-shell</url>
   <properties>
