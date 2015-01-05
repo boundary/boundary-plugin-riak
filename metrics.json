@@ -1,0 +1,344 @@
+{
+    "result": [
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean object size for strongly consistent GETs on this node in the last minute",
+            "displayName": "Riak - Consistent Get Objsize Mean",
+            "displayNameShort": "Riak - ConGet Sz Mn",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_GET_OBJSIZE_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time between reception of client GETs to strongly consistent keys and subsequent response",
+            "displayName": "Riak - Consistent Get Time Mean",
+            "displayNameShort": "Riak - ConGet Tm Mn",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_GET_TIME_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of strongly consistent GETs coordinated by this node in the last minute",
+            "displayName": "Riak - Consistent Gets",
+            "displayNameShort": "Riak - Con Gets",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_GETS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean object size for strongly consistent PUTs on this node in the last minute",
+            "displayName": "Riak - Consistent Put Objsize Mean",
+            "displayNameShort": "Riak - ConPut Sz Mn",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_PUT_OBJSIZE_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time between reception of client PUTs to strongly consistent keys and subsequent response",
+            "displayName": "Riak - Consistent Put Time Mean",
+            "displayNameShort": "Riak - ConPut Sz Mn",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_PUT_TIME_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of strongly consistent PUTs coordinated by this node in the last minute",
+            "displayName": "Riak - Consistent Puts",
+            "displayNameShort": "Riak - Con Puts",
+            "isDisabled": 0,
+            "name": "RIAK_CONSISTENT_PUTS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time in milliseconds describing time taken for the ring to converge after ring changes",
+            "displayName": "Riak - Converge Delay Mean",
+            "displayNameShort": "Riak - Conv Dly Mean",
+            "isDisabled": 0,
+            "name": "RIAK_CONVERGE_DELAY_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of gossip messages received in the last minute",
+            "displayName": "Riak - Gossip Received",
+            "displayNameShort": "Riak - Gossip Rcv",
+            "isDisabled": 0,
+            "name": "RIAK_GOSSIP_RECEIVED",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Median queue size of all local Riak KV virtual nodes in the last minute",
+            "displayName": "Riak - KV vnode Queue Median",
+            "displayNameShort": "Riak - KV Q Median",
+            "isDisabled": 0,
+            "name": "RIAK_KV_VNODEQ_MEDIAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Total queue size of all local Riak KV virtual nodes in the last minute",
+            "displayName": "Riak - KV vnode Queue Total",
+            "displayNameShort": "Riak - KV Q Total",
+            "isDisabled": 0,
+            "name": "RIAK_KV_VNODEQ_TOTAL",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of local Riak KV virtual nodes running",
+            "displayName": "Riak - KV vnodes Running",
+            "displayNameShort": "Riak - KV Nodes Run",
+            "isDisabled": 0,
+            "name": "RIAK_KV_VNODES_RUNNING",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Total allocated memory (sum of processes and system)",
+            "displayName": "Riak - Memory Total",
+            "displayNameShort": "Riak - Memory Total",
+            "isDisabled": 0,
+            "name": "RIAK_MEMORY_TOTAL",
+            "unit": "bytecount"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Average number of GET FSMs enqueued by Sidejob",
+            "displayName": "Riak - Node Get FSM In Rate",
+            "displayNameShort": "Riak - Get FSM In",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GET_FSM_IN_RATE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean object size encountered by this node within the last minute",
+            "displayName": "Riak - Node Get FSM Objsize Mean",
+            "displayNameShort": "Riak - Get FSM Objsz",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GET_FSM_OBJSIZE_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Average number of GET FSMs dequeued by Sidejob",
+            "displayName": "Riak - Node Get FSM Out Rate",
+            "displayNameShort": "Riak - Get FSM Out",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GET_FSM_OUT_RATE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean number of siblings encountered during all GET operations by this node within the last minute",
+            "displayName": "Riak - Node Get FSM Siblings Mean",
+            "displayNameShort": "Riak - GetSib FSM Mn",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GET_FSM_SIBLINGS_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time between reception of client GET request and subsequent response to client",
+            "displayName": "Riak - Node Get FSM Time Mean",
+            "displayNameShort": "Riak - Get FSM MeanT",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GET_FSM_TIME_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of GETs coordinated by this node, including GETs to non-local vnodes in the last minute",
+            "displayName": "Riak - Node Gets",
+            "displayNameShort": "Riak - Node Gets",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_GETS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Average number of PUT FSMs enqueued by Sidejob",
+            "displayName": "Riak - Node Put FSM In Rate",
+            "displayNameShort": "Riak - Put FSM In",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_PUT_FSM_IN_RATE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Average number of PUT FSMs dequeued by Sidejob",
+            "displayName": "Riak - Node Put FSM Out Rate",
+            "displayNameShort": "Riak - Put FSM Out",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_PUT_FSM_OUT_RATE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time between reception of client PUT request and subsequent response to client",
+            "displayName": "Riak - Node Put FSM Time Mean",
+            "displayNameShort": "Riak - Put FSM MeanT",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_PUT_FSM_TIME_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of PUTs coordinated by this node, where a PUT is sent to a local vnode in the last minute",
+            "displayName": "Riak - Node Puts",
+            "displayNameShort": "Riak - Node Puts",
+            "isDisabled": 0,
+            "name": "RIAK_NODE_PUTS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of Protocol Buffers connections made in the last minute",
+            "displayName": "Riak - PBC Connects",
+            "displayNameShort": "Riak - PBC Connects",
+            "isDisabled": 0,
+            "name": "RIAK_PBC_CONNECTS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Median queue size of local Riak Pipe virtual nodes in the last minute",
+            "displayName": "Riak - Pipe vnode Queue Median",
+            "displayNameShort": "Riak - Pipe Q Median",
+            "isDisabled": 0,
+            "name": "RIAK_PIPE_VNODEQ_MEDIAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Total queue size of all local Riak Pipe virtual nodes in the last minute",
+            "displayName": "Riak - Pipe vnode Queue Total",
+            "displayNameShort": "Riak - Pipe Q Total",
+            "isDisabled": 0,
+            "name": "RIAK_PIPE_VNODEQ_TOTAL",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of local Riak Pipe virtual nodes running",
+            "displayName": "Riak - Pipe vnodes Running",
+            "displayNameShort": "Riak - Pipe vnodes",
+            "isDisabled": 0,
+            "name": "RIAK_PIPE_VNODES_RUNNING",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "The number of pipelines active in the last 60 seconds",
+            "displayName": "Riak - Pipeline Active",
+            "displayNameShort": "Riak - Pipeline Act",
+            "isDisabled": 0,
+            "name": "RIAK_PIPELINE_ACTIVE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "The number of pipelines created in the last 60 seconds",
+            "displayName": "Riak - Pipeline Create One",
+            "displayNameShort": "Riak - Pipeline Cr",
+            "isDisabled": 0,
+            "name": "RIAK_PIPELINE_CREATE_ONE",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of read repair operations this node has coordinated in the last minute",
+            "displayName": "Riak - Read Repairs",
+            "displayNameShort": "Riak - Read Repairs",
+            "isDisabled": 0,
+            "name": "RIAK_READ_REPAIRS",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean time in milliseconds describing time taken for the ring to converge after ring changes",
+            "displayName": "Riak - Rebalance Delay Mean",
+            "displayNameShort": "Riak - Rblc Dly Mean",
+            "isDisabled": 0,
+            "name": "RIAK_REBALANCE_DELAY_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Number of ring reconciliation operations in the last minute",
+            "displayName": "Riak - Rings Reconciled",
+            "displayNameShort": "Riak - Rings Reconc",
+            "isDisabled": 0,
+            "name": "RIAK_RINGS_RECONCILED",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Mean number of unprocessed messages all vnode message queues in the Riak Search subsystem have received on this node in the last minute",
+            "displayName": "Riak - Search vnode Queue Mean",
+            "displayNameShort": "Riak - Search Q Mean",
+            "isDisabled": 0,
+            "name": "RIAK_SEARCH_VNODEQ_MEAN",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Total number of unprocessed messages all vnode message queues in the Riak Search subsystem have received on this node since it was started",
+            "displayName": "Riak - Search vnode Queue Total",
+            "displayNameShort": "Riak - Search Q Tot",
+            "isDisabled": 0,
+            "name": "RIAK_SEARCH_VNODEQ_TOTAL",
+            "unit": "number"
+        },
+        {
+            "defaultAggregate": "avg",
+            "defaultResolutionMS": 1000,
+            "description": "Total number of vnodes currently running in the Riak Search subsystem",
+            "displayName": "Riak - Search vnodes Running",
+            "displayNameShort": "Riak - Search vnodes",
+            "isDisabled": 0,
+            "name": "RIAK_SEARCH_VNODES_RUNNING",
+            "unit": "number"
+        }
+    ]
+}
