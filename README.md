@@ -41,7 +41,7 @@ Before the plugin will collect metrics, you must provide it with the URL used to
 |:-------------|:-----------------------------------|
 |Riak Stats URL|The URL to Riak's stats API endpoint|
 
-## Metrics Collected
+### Metrics Collected
 
 #### For All Versions
 
