@@ -28,6 +28,8 @@ The Boundary Riak plugin collects information on Riak clusters.
 
 ### Plugin Setup
 
+#### For All Versions
+
 None
 
 

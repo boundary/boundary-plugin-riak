@@ -3,7 +3,7 @@
   "icon" : "icon.png",
 
   "command": "python -u plugin.py",
-  "command_lua": "boundary-meter index.lua",
+  "command_lua": "boundary-meter init.lua",
 
   "postExtract" : "",
   "postExtract_lua" : "",
