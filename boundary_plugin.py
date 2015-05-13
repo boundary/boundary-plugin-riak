@@ -11,7 +11,7 @@ import os
 
 __version__ = '1.1.0'
 
-HOSTNAME = socket.gethostname()
+HOSTNAME = socket.getfqdn()
 
 metric_log_file = None
 plugin_params = None
