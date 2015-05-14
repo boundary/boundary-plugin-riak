@@ -1,56 +1,90 @@
 {
-    "description": "Monitors Riak clusters",
-    "command": "python -u plugin.py",
-    "icon" : "icon.png",
-    "metrics" : [
-		"RIAK_RINGS_RECONCILED",
-		"RIAK_GOSSIP_RECEIVED",
-		"RIAK_CONVERGE_DELAY_MEAN",
-		"RIAK_REBALANCE_DELAY_MEAN",
-		"RIAK_KV_VNODES_RUNNING",
-		"RIAK_KV_VNODEQ_MEDIAN",
-		"RIAK_KV_VNODEQ_TOTAL",
-		"RIAK_PIPE_VNODES_RUNNING",
-		"RIAK_PIPE_VNODEQ_MEDIAN",
-		"RIAK_PIPE_VNODEQ_TOTAL",
-		"RIAK_NODE_GET_FSM_IN_RATE",
-		"RIAK_NODE_GET_FSM_OUT_RATE",
-		"RIAK_NODE_PUT_FSM_IN_RATE",
-		"RIAK_NODE_PUT_FSM_OUT_RATE",
-		"RIAK_NODE_GETS",
-		"RIAK_NODE_PUTS",
-		"RIAK_PBC_CONNECTS",
-		"RIAK_READ_REPAIRS",
-		"RIAK_NODE_GET_FSM_TIME_MEAN",
-		"RIAK_NODE_PUT_FSM_TIME_MEAN",
-		"RIAK_NODE_GET_FSM_SIBLINGS_MEAN",
-		"RIAK_NODE_GET_FSM_OBJSIZE_MEAN",
-		"RIAK_MEMORY_TOTAL",
-		"RIAK_PIPELINE_ACTIVE",
-		"RIAK_PIPELINE_CREATE_ONE",
-		"RIAK_SEARCH_VNODEQ_MEAN",
-		"RIAK_SEARCH_VNODEQ_TOTAL",
-		"RIAK_SEARCH_VNODES_RUNNING",
-		"RIAK_CONSISTENT_GETS",
-		"RIAK_CONSISTENT_GET_OBJSIZE_MEAN",
-		"RIAK_CONSISTENT_GET_TIME_MEAN",
-		"RIAK_CONSISTENT_PUTS",
-		"RIAK_CONSISTENT_PUT_OBJSIZE_MEAN",
-		"RIAK_CONSISTENT_PUT_TIME_MEAN"],
+  "description": "Collect statistical metrics from Riak nodes.",
+  "icon" : "icon.png",
 
-    "dashboards" : [{"name" : "Riak",
-        "layout" : 
+  "command": "python -u plugin.py",
+  "command_lua": "boundary-meter init.lua",
+
+  "postExtract" : "",
+  "postExtract_lua" : "",
+
+  "metrics" : [
+    "RIAK_RINGS_RECONCILED",
+    "RIAK_GOSSIP_RECEIVED",
+    "RIAK_CONVERGE_DELAY_MEAN",
+    "RIAK_REBALANCE_DELAY_MEAN",
+    "RIAK_KV_VNODES_RUNNING",
+    "RIAK_KV_VNODEQ_MEDIAN",
+    "RIAK_KV_VNODEQ_TOTAL",
+    "RIAK_PIPE_VNODES_RUNNING",
+    "RIAK_PIPE_VNODEQ_MEDIAN",
+    "RIAK_PIPE_VNODEQ_TOTAL",
+    "RIAK_NODE_GET_FSM_IN_RATE",
+    "RIAK_NODE_GET_FSM_OUT_RATE",
+    "RIAK_NODE_PUT_FSM_IN_RATE",
+    "RIAK_NODE_PUT_FSM_OUT_RATE",
+    "RIAK_NODE_GETS",
+    "RIAK_NODE_PUTS",
+    "RIAK_PBC_CONNECTS",
+    "RIAK_READ_REPAIRS",
+    "RIAK_NODE_GET_FSM_TIME_MEAN",
+    "RIAK_NODE_PUT_FSM_TIME_MEAN",
+    "RIAK_NODE_GET_FSM_SIBLINGS_MEAN",
+    "RIAK_NODE_GET_FSM_OBJSIZE_MEAN",
+    "RIAK_MEMORY_TOTAL",
+    "RIAK_PIPELINE_ACTIVE",
+    "RIAK_PIPELINE_CREATE_ONE",
+    "RIAK_SEARCH_VNODEQ_MEAN",
+    "RIAK_SEARCH_VNODEQ_TOTAL",
+    "RIAK_SEARCH_VNODES_RUNNING",
+    "RIAK_CONSISTENT_GETS",
+    "RIAK_CONSISTENT_GET_OBJSIZE_MEAN",
+    "RIAK_CONSISTENT_GET_TIME_MEAN",
+    "RIAK_CONSISTENT_PUTS",
+    "RIAK_CONSISTENT_PUT_OBJSIZE_MEAN",
+    "RIAK_CONSISTENT_PUT_TIME_MEAN"
+  ],
+
+  "dashboards" : [
+    {"name" : "Riak",
+      "layout" :
 "d-w=4&d-h=2&d-pad=5&d-bg=none&d-g-RIAK_CONSISTENT_GETS=0-0-1-1-t&d-g-RIAK_CONSISTENT_PUTS=0-0-1-1-b&d-g-RIAK_CONSISTENT_GET_OBJSIZE_MEAN=1-0-1-1-t&d-g-RIAK_CONSISTENT_PUT_OBJSIZE_MEAN=1-0-1-1-b&d-g-RIAK_CONSISTENT_GET_TIME_MEAN=2-0-1-1-t&d-g-RIAK_CONSISTENT_PUT_TIME_MEAN=2-0-1-1-b&d-g-RIAK_CONVERGE_DELAY_MEAN=3-0-1-1&d-g-RIAK_NODE_GET_FSM_IN_RATE=0-1-1-1-t&d-g-RIAK_NODE_GET_FSM_OUT_RATE=0-1-1-1-b&d-g-RIAK_NODE_PUT_FSM_IN_RATE=1-1-1-1-t&d-g-RIAK_NODE_PUT_FSM_OUT_RATE=1-1-1-1-b&d-g-RIAK_NODE_GET_FSM_TIME_MEAN=2-1-1-1-t&d-g-RIAK_NODE_PUT_FSM_TIME_MEAN=2-1-1-1-b&d-g-RIAK_NODE_GETS=3-1-1-1-t&d-g-RIAK_NODE_PUTS=3-1-1-1-b" }],
 
-    "paramSchema": [
-        {
-            "title": "Riak Stats URL",
-            "name": "stats_url",
-            "description": "The URL to Riak's stats API endpoint",
-            "type": "string",
-            "default": "http://127.0.0.1:8098/stats",
-            "required": true
-        }
-    ]
+  "paramSchema": [
+    {
+        "title": "Riak Statistics URI",
+        "name": "statisticsUri",
+        "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
+        "type": "string",
+        "default": "http://127.0.0.1:8098/stats",
+        "required": true
+    },
+
+    {
+      "title": "Poll Retry Count",
+      "name": "pollRetryCount",
+      "description": "The number of times to retry failed HTTP requests (default: 5, infinite: 0).",
+      "type" : "integer",
+      "default" : 5,
+      "required" : false
+    },
+    {
+      "title": "Poll Retry Delay",
+      "name": "pollRetryDelay",
+      "description": "The interval (in milliseconds) to wait before retrying a failed request (default: 3000).",
+      "type" : "integer",
+      "default" : 5,
+      "required" : false
+    },
+
+    {
+      "title": "Poll Interval",
+      "name": "pollInterval",
+      "description": "How often (in milliseconds) to poll the Couchbase node for metrics (default: 5000).",
+      "type" : "integer",
+      "default" : 5000,
+      "required" : false
+    }
+  ]
 }
 

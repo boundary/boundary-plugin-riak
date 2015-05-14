@@ -1,0 +1,8 @@
+{
+  "statisticsUri": "http://127.0.0.1:8098/stats",
+
+  "pollRetryCount": 3,
+  "pollRetryDelay": 3000,
+
+  "pollInterval": 1000
+}
