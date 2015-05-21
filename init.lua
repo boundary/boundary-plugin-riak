@@ -13,19 +13,19 @@ local json  = require('json')
 local http  = require('http')
 local os    = require('os')
 local timer = require('timer')
-local tools = require('tools')
 local url   = require('url')
+local boundary   = require('boundary')
 
 --
 -- Initialize.
 --
 local _buckets          = {}
-local _parameters       = json.parse(fs.readFileSync('param.json')) or {}
+local _parameters       = boundary.param
 
 local _statisticsUri    = _parameters.statisticsUri or 'http://127.0.0.1:8098/stats'
-local _pollRetryCount   = tools.fence(tonumber(_parameters.pollRetryCount) or    5,   0, 1000)
-local _pollRetryDelay   = tools.fence(tonumber(_parameters.pollRetryDelay) or 3000,   0, 1000 * 60 * 60)
-local _pollInterval     = tools.fence(tonumber(_parameters.pollInterval)   or 5000, 100, 1000 * 60 * 60 * 24)
+local _pollRetryCount   = tonumber(_parameters.pollRetryCount) or    5
+local _pollRetryDelay   = tonumber(_parameters.pollRetryDelay) or 3000
+local _pollInterval     = tonumber(_parameters.pollInterval)   or 5000
 
 --
 -- Metrics source.
