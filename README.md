@@ -3,9 +3,9 @@ Boundary Riak Plugin
 
 The Boundary Riak plugin collects information on Riak clusters.
 
-## Prerequisites
+### Prerequisites
 
-### Supported OS
+#### Supported OS
 
 |     OS    | Linux | Windows | SmartOS | OS X |
 |:----------|:-----:|:-------:|:-------:|:----:|
