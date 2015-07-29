@@ -63,13 +63,20 @@
         "type": "string",
         "default": "http://127.0.0.1:8098/stats",
         "required": true
-    }
+    },
     {
       "title": "Poll Interval",
       "name": "pollInterval",
       "description": "How often (in milliseconds) to poll the Couchbase node for metrics (default: 5000).",
       "type" : "integer",
       "default" : 2000,
+      "required" : false
+    },
+    {
+      "title": "Source",
+      "name": "source",
+      "description": "The Source to display in the legend for the metric data.  It will default to the hostname of the server.",
+      "type": "string",
       "required" : false
     }
   ]
