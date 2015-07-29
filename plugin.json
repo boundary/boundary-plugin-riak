@@ -1,4 +1,9 @@
 {
+  "name" : "Boundary Riak Plugin",
+  "version" : "0.9.0",
+  "meterVersionRequired": "4.2.0-611",
+  "unsupportedPlatforms" : [],
+  "tags" : "mysql",
   "description": "Collect statistical metrics from Riak nodes.",
   "icon" : "icon.png",
 
@@ -52,37 +57,26 @@
 
   "paramSchema": [
     {
-        "title": "Riak Statistics URI",
-        "name": "statisticsUri",
-        "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
-        "type": "string",
-        "default": "http://127.0.0.1:8098/stats",
-        "required": true
-    },
-
-    {
-      "title": "Poll Retry Count",
-      "name": "pollRetryCount",
-      "description": "The number of times to retry failed HTTP requests (default: 5, infinite: 0).",
-      "type" : "integer",
-      "default" : 5,
-      "required" : false
+      "title": "Riak Stats URL",
+      "name": "url",
+      "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
+      "type": "string",
+      "default": "http://127.0.0.1:8098/stats",
+      "required": true
     },
     {
-      "title": "Poll Retry Delay",
-      "name": "pollRetryDelay",
-      "description": "The interval (in milliseconds) to wait before retrying a failed request (default: 3000).",
-      "type" : "integer",
-      "default" : 5,
-      "required" : false
-    },
-
-    {
-      "title": "Poll Interval",
+      "title": "Poll Interval (ms)",
       "name": "pollInterval",
       "description": "How often (in milliseconds) to poll the Couchbase node for metrics (default: 5000).",
       "type" : "integer",
-      "default" : 5000,
+      "default" : 2000,
+      "required" : false
+    },
+    {
+      "title": "Source",
+      "name": "source",
+      "description": "The Source to display in the legend for the metric data.  It will default to the hostname of the server.",
+      "type": "string",
       "required" : false
     }
   ]

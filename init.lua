@@ -1,171 +1,72 @@
+-- Copyright 2015 Boundary, Inc.
 --
--- [boundary.com] Riak Lua Plugin
--- [author] Valeriu Paloş <me@vpalos.com>
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
 --
+--    http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
 
---
--- Imports.
---
-local dns   = require('dns')
-local fs    = require('fs')
-local json  = require('json')
-local http  = require('http')
-local os    = require('os')
-local timer = require('timer')
-local url   = require('url')
-local boundary   = require('boundary')
+local framework = require('framework')
+local Plugin = framework.Plugin
+local WebRequestDataSource = framework.WebRequestDataSource
+local parseJson = framework.util.parseJson
+local url = require('url')
+local isHttpSuccess = framework.util.isHttpSuccess
+local notEmpty = framework.string.notEmpty
 
---
--- Initialize.
---
-local _buckets          = {}
-local _parameters       = boundary.param
+local params = framework.params
+params.url = notEmpty(params.url, 'http://127.0.0.1:8098/stats')
 
-local _statisticsUri    = _parameters.statisticsUri or 'http://127.0.0.1:8098/stats'
-local _pollRetryCount   = tonumber(_parameters.pollRetryCount) or    5
-local _pollRetryDelay   = tonumber(_parameters.pollRetryDelay) or 3000
-local _pollInterval     = tonumber(_parameters.pollInterval)   or 5000
+local options = url.parse(params.url)
 
---
--- Metrics source.
---
-local _source =
-  (type(_parameters.source) == 'string' and _parameters.source:gsub('%s+', '') ~= '' and _parameters.source) or
-   os.hostname()
-
---
--- Get a JSON data set from the server.
---
-function retrieve(callback)
-  local _pollRetryRemaining = _pollRetryCount
-
-  local options = url.parse(_statisticsUri)
-  options.headers = {
-    ['Accept'] = 'application/json'
+local ds = WebRequestDataSource:new(options)
+local plugin = Plugin:new(params, ds)
+function plugin:onParseValues(data, extra)
+  local success, parsed = parseJson(data)
+  local result = {
+    ['RIAK_RINGS_RECONCILED'] = parsed.rings_reconciled,
+    ['RIAK_GOSSIP_RECEIVED'] = parsed.gossip_received,
+    ['RIAK_CONVERGE_DELAY_MEAN'] = parsed.converge_delay_mean,
+    ['RIAK_REBALANCE_DELAY_MEAN'] = parsed.rebalance_delay_mean,
+    ['RIAK_KV_VNODES_RUNNING' ] = parsed.riak_kv_vnodes_running,
+    ['RIAK_KV_VNODEQ_MEDIAN' ] = parsed.riak_kv_vnodeq_median,
+    ['RIAK_KV_VNODEQ_TOTAL' ] = parsed.riak_kv_vnodeq_total,
+    ['RIAK_PIPE_VNODES_RUNNING' ] = parsed.riak_pipe_vnodes_running,
+    ['RIAK_PIPE_VNODEQ_MEDIAN' ] = parsed.riak_pipe_vnodeq_median,
+    ['RIAK_PIPE_VNODEQ_TOTAL' ] = parsed.riak_pipe_vnodeq_total,
+    ['RIAK_NODE_GET_FSM_IN_RATE' ] = parsed.node_get_fsm_in_rate,
+    ['RIAK_NODE_GET_FSM_OUT_RATE' ] = parsed.node_get_fsm_out_rate,
+    ['RIAK_NODE_PUT_FSM_IN_RATE' ] = parsed.node_put_fsm_in_rate,
+    ['RIAK_NODE_PUT_FSM_OUT_RATE' ] = parsed.node_put_fsm_out_rate,
+    ['RIAK_NODE_GETS' ] = parsed.node_gets,
+    ['RIAK_NODE_PUTS' ] = parsed.node_puts,
+    ['RIAK_PBC_CONNECTS' ] = parsed.pbc_connects,
+    ['RIAK_READ_REPAIRS' ] = parsed.read_repairs,
+    ['RIAK_NODE_GET_FSM_TIME_MEAN' ] = parsed.node_get_fsm_time_mean,
+    ['RIAK_NODE_PUT_FSM_TIME_MEAN' ] = parsed.node_put_fsm_time_mean,
+    ['RIAK_NODE_GET_FSM_SIBLINGS_MEAN' ] = parsed.node_get_fsm_siblings_mean,
+    ['RIAK_NODE_GET_FSM_OBJSIZE_MEAN' ] = parsed.node_get_fsm_objsize_mean,
+    ['RIAK_MEMORY_TOTAL' ] = parsed.memory_total,
+    ['RIAK_PIPELINE_ACTIVE' ] = parsed.pipeline_active,
+    ['RIAK_PIPELINE_CREATE_ONE' ] = parsed.pipeline_create_one,
+    ['RIAK_SEARCH_VNODEQ_MEAN' ] = parsed.riak_search_vnodeq_mean,
+    ['RIAK_SEARCH_VNODEQ_TOTAL' ] = parsed.riak_search_vnodeq_total,
+    ['RIAK_SEARCH_VNODES_RUNNING' ] = parsed.riak_search_vnodes_running,
+    ['RIAK_CONSISTENT_GETS' ] = parsed.consistent_gets,
+    ['RIAK_CONSISTENT_GET_OBJSIZE_MEAN' ] = parsed.consistent_get_objsize_mean,
+    ['RIAK_CONSISTENT_GET_TIME_MEAN' ] = parsed.consistent_get_time_mean,
+    ['RIAK_CONSISTENT_PUTS' ] = parsed.consistent_puts,
+    ['RIAK_CONSISTENT_PUT_OBJSIZE_MEAN' ] = parsed.consistent_put_objsize_mean,
+    ['RIAK_CONSISTENT_PUT_TIME_MEAN' ] = parsed.consistent_put_time_mean
   }
 
-  function handler(response)
-    if (response.status_code ~= 200) then
-      return retry("Unexpected status code " .. response.status_code .. ", should be 200!")
-    end
-
-    local data = {}
-    response:on('data', function(chunk)
-      table.insert(data, chunk)
-    end)
-    response:on('end', function()
-      local success, json = pcall(json.parse, table.concat(data))
-
-      if success then
-        callback(nil, json)
-      else
-        callback("Unable to parse incoming data as a valid JSON value!")
-      end
-
-      response:destroy()
-    end)
-
-    response:once('error', retry)
-  end
-
-  function retry(result)
-    if _pollRetryRemaining == 0 then
-      return callback(result)
-    elseif _pollRetryRemaining > 0 then
-      _pollRetryRemaining = _pollRetryRemaining - 1
-    end
-    timer.setTimeout(_pollRetryDelay, perform)
-  end
-
-  function perform()
-    local request = http.request(options, handler)
-    request:once('error', retry)
-    request:done()
-  end
-
-  perform()
+  return result 
 end
 
---
--- Schedule poll.
---
-function schedule()
-  timer.setTimeout(_pollInterval, poll)
-end
-
---
--- Print a metric.
---
-function metric(stamp, id, value)
-  print(string.format('%s %s %s %d', id, value, _source, stamp))
-end
-
---
--- Compile and print metrics from given data.
---
-function produce(stamp, data)
-
-  local metrics = {
-    ['rings_reconciled' ] =             'RIAK_RINGS_RECONCILED',
-    ['gossip_received' ] =              'RIAK_GOSSIP_RECEIVED',
-    ['converge_delay_mean' ] =          'RIAK_CONVERGE_DELAY_MEAN',
-    ['rebalance_delay_mean' ] =         'RIAK_REBALANCE_DELAY_MEAN',
-    ['riak_kv_vnodes_running' ] =       'RIAK_KV_VNODES_RUNNING',
-    ['riak_kv_vnodeq_median' ] =        'RIAK_KV_VNODEQ_MEDIAN',
-    ['riak_kv_vnodeq_total' ] =         'RIAK_KV_VNODEQ_TOTAL',
-    ['riak_pipe_vnodes_running' ] =     'RIAK_PIPE_VNODES_RUNNING',
-    ['riak_pipe_vnodeq_median' ] =      'RIAK_PIPE_VNODEQ_MEDIAN',
-    ['riak_pipe_vnodeq_total' ] =       'RIAK_PIPE_VNODEQ_TOTAL',
-    ['node_get_fsm_in_rate' ] =         'RIAK_NODE_GET_FSM_IN_RATE',
-    ['node_get_fsm_out_rate' ] =        'RIAK_NODE_GET_FSM_OUT_RATE',
-    ['node_put_fsm_in_rate' ] =         'RIAK_NODE_PUT_FSM_IN_RATE',
-    ['node_put_fsm_out_rate' ] =        'RIAK_NODE_PUT_FSM_OUT_RATE',
-    ['node_gets' ] =                    'RIAK_NODE_GETS',
-    ['node_puts' ] =                    'RIAK_NODE_PUTS',
-    ['pbc_connects' ] =                 'RIAK_PBC_CONNECTS',
-    ['read_repairs' ] =                 'RIAK_READ_REPAIRS',
-    ['node_get_fsm_time_mean' ] =       'RIAK_NODE_GET_FSM_TIME_MEAN',
-    ['node_put_fsm_time_mean' ] =       'RIAK_NODE_PUT_FSM_TIME_MEAN',
-    ['node_get_fsm_siblings_mean' ] =   'RIAK_NODE_GET_FSM_SIBLINGS_MEAN',
-    ['node_get_fsm_objsize_mean' ] =    'RIAK_NODE_GET_FSM_OBJSIZE_MEAN',
-    ['memory_total' ] =                 'RIAK_MEMORY_TOTAL',
-    ['pipeline_active' ] =              'RIAK_PIPELINE_ACTIVE',
-    ['pipeline_create_one' ] =          'RIAK_PIPELINE_CREATE_ONE',
-    ['riak_search_vnodeq_mean' ] =      'RIAK_SEARCH_VNODEQ_MEAN',
-    ['riak_search_vnodeq_total' ] =     'RIAK_SEARCH_VNODEQ_TOTAL',
-    ['riak_search_vnodes_running' ] =   'RIAK_SEARCH_VNODES_RUNNING',
-    ['consistent_gets' ] =              'RIAK_CONSISTENT_GETS',
-    ['consistent_get_objsize_mean' ] =  'RIAK_CONSISTENT_GET_OBJSIZE_MEAN',
-    ['consistent_get_time_mean' ] =     'RIAK_CONSISTENT_GET_TIME_MEAN',
-    ['consistent_puts' ] =              'RIAK_CONSISTENT_PUTS',
-    ['consistent_put_objsize_mean' ] =  'RIAK_CONSISTENT_PUT_OBJSIZE_MEAN',
-    ['consistent_put_time_mean' ] =     'RIAK_CONSISTENT_PUT_TIME_MEAN'
-  }
-
-  for tag, label in pairs(metrics) do
-    local value = data[tag]
-    if value then
-      metric(stamp, label, value)
-    end
-  end
-
-  schedule()
-end
-
---
--- Start producing metrics.
---
-function poll()
-  retrieve(function(failure, data)
-    if failure then
-      schedule()
-    else
-      produce(os.time(), data)
-    end
-  end)
-end
-
---
--- Trigger collection.
---
-poll()
+plugin:run()
