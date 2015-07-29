@@ -1,5 +1,4 @@
-Boundary Riak Plugin
---------------------
+# Boundary Riak Plugin
 
 The Boundary Riak plugin collects information on Riak clusters.
 
@@ -9,41 +8,36 @@ The Boundary Riak plugin collects information on Riak clusters.
 
 |     OS    | Linux | Windows | SmartOS | OS X |
 |:----------|:-----:|:-------:|:-------:|:----:|
-| Supported |   v   |         |    v    |  v   |
+| Supported |   v   |    v    |    v    |  v   |
 
 #### Requires Riak [stats endpoint](http://docs.basho.com/riak/latest/dev/references/http/status/) to be enabled and accessible from the machine running the plugin.
 
-#### Boundary Meter Versions V4.0 or later
+#### Boundary Meter versions v4.2 or later
 
-- To install new meter go to Settings->Installation or [see instructons](https://help.boundary.com/hc/en-us/sections/200634331-Installation).
-- To upgrade the meter to the latest version - [see instructons](https://help.boundary.com/hc/en-us/articles/201573102-Upgrading-the-Boundary-Meter).
+- To install new meter go to Settings->Installation or [see instructions](https://help.boundary.com/hc/en-us/sections/200634331-Installation).
+- To upgrade the meter to the latest version - [see instructions](https://help.boundary.com/hc/en-us/articles/201573102-Upgrading-the-Boundary-Meter).
 
-#### For Boundary Meter less than V4.0
+#### For Boundary Meter earlier than v4.2
 
 |  Runtime | node.js | Python | Java |
 |:---------|:-------:|:------:|:----:|
-| Required |         |    +   |      |
+| Required |    +    |        |      |
 
-- Python 2.6 or later
-- [How to install Python?](https://help.boundary.com/hc/articles/202270132)
+- [How to install node.js?](https://help.boundary.com/hc/articles/202360701)
 
 ### Plugin Setup
 
 Before the plugin will collect metrics, you must provide it with the URL used to access the Riak stats endpoint.  By default, this is "http://127.0.0.1:8098/stats", but it could be different if you have configured a different port.
 
-
 ### Plugin Configuration Fields
-
-#### For All Versions
-
 
 |Field Name    |Description                         |
 |:-------------|:-----------------------------------|
 |Riak Stats URL|The URL to Riak's stats API endpoint|
+|Poll Interval | How often (in milliseconds) to poll for metrics |
+|Source     |The Source to display in the legend for the metrics data.  It will default to the hostname of the server|
 
 ### Metrics Collected
-
-#### For All Versions
 
 |Field Name                      |Description                                                                                                                               |
 |:-------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
@@ -82,8 +76,10 @@ Before the plugin will collect metrics, you must provide it with the URL used to
 |RIAK_SEARCH_VNODEQ_TOTAL        |Total number of unprocessed messages all vnode message queues in the Riak Search subsystem have received on this node since it was started|
 |RIAK_SEARCH_VNODES_RUNNING      |Total number of vnodes currently running in the Riak Search subsystem                                                                     |
 
+### Dashboards
+
+- Riak
+
 ### References
 
 The information collected is a subset of the [stats endpoint data](http://docs.basho.com/riak/latest/dev/references/http/status/), which also includes some data from the [riak-admin status](http://docs.basho.com/riak/latest/ops/running/nodes/inspecting/) command.
-
-
