@@ -28,6 +28,10 @@ local options = url.parse(params.url)
 local ds = WebRequestDataSource:new(options)
 local plugin = Plugin:new(params, ds)
 function plugin:onParseValues(data, extra)
+  if not isHttpSuccess(extra.status_code) then
+    self:emitEvent('error', ('Http request returned status code %s instead of OK. Please verify Riak stats endpoint.'):format(extra.status_code))
+    return
+  end
   local success, parsed = parseJson(data)
   local result = {
     ['RIAK_RINGS_RECONCILED'] = parsed.rings_reconciled,
