@@ -57,15 +57,15 @@
 
   "paramSchema": [
     {
-        "title": "Riak Statistics URL",
-        "name": "url",
-        "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
-        "type": "string",
-        "default": "http://127.0.0.1:8098/stats",
-        "required": true
+      "title": "Riak Stats URL",
+      "name": "url",
+      "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
+      "type": "string",
+      "default": "http://127.0.0.1:8098/stats",
+      "required": true
     },
     {
-      "title": "Poll Interval",
+      "title": "Poll Interval (ms)",
       "name": "pollInterval",
       "description": "How often (in milliseconds) to poll the Couchbase node for metrics (default: 5000).",
       "type" : "integer",
