@@ -53,7 +53,7 @@
   "paramSchema": [
     {
         "title": "Riak Statistics URI",
-        "name": "statisticsUri",
+        "name": "url",
         "description": "The URI to Riak's statistics REST API endpoint (default: 'http://127.0.0.1:8098/stats').",
         "type": "string",
         "default": "http://127.0.0.1:8098/stats",
