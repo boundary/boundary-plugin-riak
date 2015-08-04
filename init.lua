@@ -19,9 +19,10 @@ local parseJson = framework.util.parseJson
 local url = require('url')
 local isHttpSuccess = framework.util.isHttpSuccess
 local notEmpty = framework.string.notEmpty
+local trim = framework.string.trim
 
 local params = framework.params
-params.url = notEmpty(params.url, 'http://127.0.0.1:8098/stats')
+params.url = trim(notEmpty(params.url, 'http://127.0.0.1:8098/stats'))
 
 local options = url.parse(params.url)
 
